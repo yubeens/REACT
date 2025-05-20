@@ -32,7 +32,6 @@ function App() {
     useEffect(() => {
         listPhone();
     }, [])
-
     //삭제하기
     const deletePhone = (targetId) => {
         console.log('removePhone : ', targetId);
@@ -42,11 +41,27 @@ function App() {
                 setDatas(datas.filter((data) => data.id !== targetId));
             })
     }
+    //수정하기
+    const updatePhone = (updatedData) => {
+        axios.put(`/api/phone/update/${updatedData.id}`, updatedData)
+            .then((res) => {
+                alert('수정완료');
+                setDatas(datas.map((data) =>
+                    data.id === updatedData.id ? res.data : data
+                ));
+            })
+            .catch((err) => {
+                console.error("수정 실패:", err);
+                alert("수정에 실패했습니다.");
+            });
+    };
 
     return (
         <div>
             <PhoneForm onCreate={handleCreate} />
-            <PhoneList phoneList={datas} deletePhone={deletePhone} />
+            <PhoneList phoneList={datas}
+                       deletePhone={deletePhone}
+                       updatePhone={updatePhone}/>
         </div>
     )
 }

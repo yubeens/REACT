@@ -27,4 +27,10 @@ public class PhoneController {
     public void delete(@PathVariable long id) {
         phoneService.deleteById(id);
     }
+    //수정
+    @PutMapping("update/{id}")
+    public Phone update(@PathVariable long id, @RequestBody Phone phone) {
+        phone.setId(id); // ID 매핑
+        return phoneService.update(phone);
+    }
 }

@@ -23,4 +23,15 @@ public class PhoneService {
     public void deleteById(long id) {
         phoneRepository.deleteById(id);
     }
+    //수정
+    public Phone update(Phone phone) {
+        Phone origin = phoneRepository.findById(phone.getId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 연락처입니다."));
+
+        origin.setName(phone.getName());
+        origin.setPhone(phone.getPhone());
+        origin.setAddr(phone.getAddr());
+
+        return phoneRepository.save(origin);
+    }
 }
