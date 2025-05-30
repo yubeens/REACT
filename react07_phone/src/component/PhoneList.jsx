@@ -1,36 +1,17 @@
-import PhoneItem from "./PhoneItem";
-import {useState} from "react";
+import PhoneItem from "./PhoneItem.jsx";
 
-function PhoneList({ data, onRemove }) {
-    console.log('PhoneList item :', data)
-    const [search, setSearch] = useState('');
-
-    const onChangeSearch = (e) => {
-        console.log('search :', search)
-        setSearch(e.target.value);
-    }
-    const getSearchResult = () => {
-        return search ===""? data : data.filter(item => item.name.includes(search));
-    }
-
-
-    return (
+function PhoneList({datas, onRemove, onChange}){
+    return(
         <div>
-            <input className='searchbar'
-                   placeholder='검색어를 입력하세요' vlause={search} onChange={onChangeSearch}/>
-
-            {
-                getSearchResult().map(item => (
-                <PhoneItem
-                    key={item.id}
-                    id={item.id}
-                    name={item.name}
-                    phone={item.phone}
-                    onRemove={onRemove}
-                />
-            ))}
+            <h1>PhoneList</h1>
+            {datas.map((data) => {
+                return (
+                    <PhoneItem key={data.id}
+                               {...data}
+                               onRemove={onRemove}
+                               onChange={onChange}/>)}
+            )}
         </div>
-    );
+    )
 }
-
-export default PhoneList;
+export default PhoneList

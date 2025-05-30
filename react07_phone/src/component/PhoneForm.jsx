@@ -1,39 +1,48 @@
-import { useState } from "react";
+import {useRef, useState} from "react";
+import {Button} from "react-bootstrap";
 
-function PhoneForm({ onCreate }) {
-    const [form, setForm] = useState({ name: '', phone: '' });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm({
-            ...form,
-            [name]: value
-        });
-    };
+function PhoneForm({onCreate}) {
+    const inputRef1 = useRef();
+    const inputRef2 = useRef();
+    let [data, setData] = useState({
+        name: '',
+        phone: ''
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!form.name || !form.phone) return;
-        onCreate(form);
-        setForm({ name: '', phone: '' }); // 입력 초기화
+        onCreate(data);
+
+        // 초기화
+        setData({ name: '', phone: '' });
+        inputRef1.current.value = '';
+        inputRef2.current.value = '';
+        inputRef1.current.focus();
+    };
+
+    const handleChange = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        });
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <input
-                    placeholder='이름'
+                    placeholder="이름"
                     name="name"
-                    value={form.name}
                     onChange={handleChange}
+                    ref={inputRef1}
                 />
                 <input
-                    placeholder='전화번호'
+                    placeholder="전화번호"
                     name="phone"
-                    value={form.phone}
                     onChange={handleChange}
+                    ref={inputRef2}
                 />
-                <button type='submit'>등록</button>
+                <Button variant="primary" type="submit">추가</Button>
             </form>
         </div>
     );
